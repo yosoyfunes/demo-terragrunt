@@ -14,7 +14,7 @@ remote_state {
 # NOTA: Los valores específicos del ambiente (como environment) 
 # se definen en cada archivo terragrunt.hcl del ambiente correspondiente
 inputs = {
-  aws_region   = "us-east-1"
+  aws_region   = var.aws_region
   project_name = "demo-infrastructure"
   
   # Tags base comunes (se pueden extender en cada ambiente)
@@ -22,4 +22,16 @@ inputs = {
     Project   = "demo-infrastructure"
     ManagedBy = "terragrunt"
   }
+}
+
+generate "provider" {
+  path      = "${get_terragrunt_dir()}/global_provider.tf"
+  if_exists = "overwrite"
+  contents = file("globals/provider.tf")
+}
+
+generate "variables" {
+  path      = "${get_terragrunt_dir()}/global_variables.tf"
+  if_exists = "overwrite"
+  contents = file("globals/variables.tf")
 }
