@@ -49,6 +49,20 @@ terraform {
   }
 }
 
+# Variables globales que se pasarán a todos los módulos
+# NOTA: Los valores específicos del ambiente (como environment) 
+# se definen en cada archivo terragrunt.hcl del ambiente correspondiente
+inputs = {
+  aws_region   = "us-east-1"
+  project_name = "demo-infrastructure"
+  
+  # Tags base comunes (se pueden extender en cada ambiente)
+  base_tags = {
+    Project   = "demo-infrastructure"
+    ManagedBy = "terragrunt"
+  }
+}
+
 # https://terragrunt.gruntwork.io/docs/reference/config-blocks-and-attributes/#generate
 # copy global variable definitions to terragrunt run dir
 generate "global_variables" {
